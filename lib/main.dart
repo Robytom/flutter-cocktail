@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -53,11 +55,17 @@ class _RandomCocktailPageState extends State<RandomCocktailPage> {
       ),
     );
   }
-
+  
   String _cocktailImage = 'https://www.thecocktaildb.com/images/logo.png';
 
   // Function to fetch a random cocktail
-  void _fetchRandomCocktail() {
-    // Implement API call here
-  }
+  void _fetchRandomCocktail() async {
+  var url = Uri.parse('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+  var response = await http.get(url);
+
+  var data = json.decode(response.body);
+  setState(() {
+    _cocktailImage = data['drinks'][0]['strDrinkThumb'];
+  });
+}
 }
