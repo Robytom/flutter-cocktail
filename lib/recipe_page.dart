@@ -15,7 +15,9 @@ class RecipePage extends StatelessWidget {
 
       if (ingredient != null && ingredient.isNotEmpty) {
         ingredientWidgets.add(
-          Text('$ingredient : $measure'),
+          Text(
+            measure != null ? '$ingredient : $measure' : ingredient,
+          ),
         );
       }
     }
