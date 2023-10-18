@@ -9,60 +9,6 @@ class RandomCocktailPage extends StatefulWidget {
 }
 
 class _RandomCocktailPageState extends State<RandomCocktailPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Random Cocktail'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Press the button to load a random cocktail!'),
-            ElevatedButton(
-              onPressed: _fetchRandomCocktail,
-              child: Text('Random Cocktail'),
-            ),
-            SizedBox(height: 20),
-            // Add a container to display the cocktail name
-            _currentCocktail == null
-                ? Container()
-                : Text(
-                    _currentCocktail!['strDrink'],
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-            SizedBox(height: 20),
-            // Add a container to display the cocktail image
-            Container(
-                height: 200,
-                width: 200,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                ),
-                child: _currentCocktail == null
-                    ? Image.network(
-                        'https://www.thecocktaildb.com/images/logo.png')
-                    : Image.network(_currentCocktail!['strDrinkThumb'])),
-            SizedBox(height: 20),
-            if (_currentCocktail != null)
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            RecipePage(cocktail: _currentCocktail!)),
-                  );
-                },
-                child: Text('Recipe and Ingredients'),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Map<String, dynamic>? _currentCocktail;
 
   // Function to fetch a random cocktail
@@ -75,5 +21,76 @@ class _RandomCocktailPageState extends State<RandomCocktailPage> {
     setState(() {
       _currentCocktail = data['drinks'][0];
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Random Cocktail'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Press the button to load a random cocktail!',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _fetchRandomCocktail,
+              child: Text('Random Cocktail'),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor),
+            ),
+            SizedBox(height: 40),
+            if (_currentCocktail != null) ...[
+              Text(
+                _currentCocktail!['strDrink'],
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor),
+              ),
+              SizedBox(height: 20),
+              Container(
+                height: 200,
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.brown[700],
+                ),
+                child: Image.network(_currentCocktail!['strDrinkThumb']),
+              ),
+              SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          RecipePage(cocktail: _currentCocktail!),
+                    ),
+                  );
+                },
+                child: Text('Recipe and Ingredients'),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor),
+              ),
+            ] else ...[
+              Container(
+                height: 200,
+                width: 200,
+                child: Image.network(
+                  'https://www.thecocktaildb.com/images/logo.png',
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 }

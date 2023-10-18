@@ -17,6 +17,7 @@ class RecipePage extends StatelessWidget {
         ingredientWidgets.add(
           Text(
             measure != null ? '$ingredient : $measure' : ingredient,
+            style: TextStyle(color: Theme.of(context).primaryColor),
           ),
         );
       }
@@ -25,16 +26,38 @@ class RecipePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(cocktail['strDrink']),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Ingredients:'),
+            Text(
+              'Ingredients:',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
             ...ingredientWidgets,
             SizedBox(height: 20),
-            Text('Recipe:'),
-            Text(cocktail['strInstructions']),
+            Text(
+              'Recipe:',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: Text(
+                cocktail['strInstructions'],
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+            ),
           ],
         ),
       ),
